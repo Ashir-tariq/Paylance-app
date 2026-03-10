@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify, render_template
 import random
 import smtplib
+import os
 
 app = Flask(__name__)
 
 otp_storage = {}
 
-sender_email = "a3009419@gmail.com"
-app_password = "uzbf aluj nemx onbb"
+
+sender_email = os.environ.get("SENDER_EMAIL", "a3009419@gmail.com")
+app_password = os.environ.get("APP_PASSWORD", "uzbf aluj nemx onbb")
 
 @app.route("/")
 def home():
