@@ -16,18 +16,20 @@ def home():
     return render_template("index.html")
 
 def send_otp(email, otp):
-    message = f"""Subject: Paylance OTP Verification
+    import ssl
+    message = f"""Subject: NexPay OTP Verification
+To: {email}
+From: {sender_email}
 
 Your OTP code is: {otp}
 
 This OTP is valid for 5 minutes. Do not share it with anyone.
 """
     try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
-        server.login(sender_email, app_password)
-        server.sendmail(sender_email, email, message)
-        server.quit()
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, app_password)
+            server.sendmail(sender_email, email, message)
         print("OTP sent successfully")
     except Exception as e:
         print("Error sending OTP:", e)
