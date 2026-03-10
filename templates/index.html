@@ -1,0 +1,794 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paylance - Professional Digital Banking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <h1 class="splash-title">Paylance</h1>
+            <p class="splash-tagline">Professional Digital Banking</p>
+            <div class="splash-loader"></div>
+        </div>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div class="login-page" id="loginPage">
+        <div class="login-bg-animation">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+        
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h1>Paylance</h1>
+                </div>
+                <p class="tagline">Your Professional Banking Partner</p>
+            </div>
+            
+            <div class="login-form">
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="mobileNumber" placeholder="Mobile Number (03XXXXXXXXX)" maxlength="11">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="mpin" placeholder="Enter 5-Digit PIN" maxlength="5">
+                    <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+                </div>
+                
+                <div class="biometric-option" onclick="biometricLogin()">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>Login with Biometric</span>
+                </div>
+                
+                <button class="btn-primary" onclick="login()">
+                    <span>Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <div class="login-footer">
+                    <a href="#" class="link" onclick="event.preventDefault(); showModal('forgotPin')">Forgot PIN?</a>
+                    <a href="#" class="link" onclick="event.preventDefault(); showModal('register')">Create Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="profile-avatar" onclick="showProfile()">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="header-info">
+                    <span class="greeting">Good Morning</span>
+                    <span class="username" id="userName">User</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <i class="fas fa-moon theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme"></i>
+                <div class="notification-bell" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <i class="fas fa-qrcode qr-icon" onclick="showQRCode()"></i>
+            </div>
+        </header>
+
+        <!-- Balance Card with Glassmorphism -->
+        <div class="balance-section">
+            <div class="balance-card">
+                <div class="card-chip">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div class="balance-header">
+                    <span>Total Balance</span>
+                    <i class="fas fa-eye balance-toggle" onclick="toggleBalance()"></i>
+                </div>
+                <div class="balance-amount">
+                    <span class="currency">PKR</span>
+                    <span id="balance" class="amount">25,000</span>
+                </div>
+                <div class="card-footer">
+                    <div class="account-info">
+                        <span class="label">Account</span>
+                        <span id="accountNumber" class="value">03XX-XXXXXXX</span>
+                    </div>
+                    <div class="card-type">
+                        <i class="fas fa-wallet"></i>
+                        <span>Paylance</span>
+                    </div>
+                </div>
+                <div class="card-glow"></div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-item">
+                    <div class="stat-icon income">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Income</span>
+                        <span class="stat-value">+Rs 15,000</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon expense">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Expense</span>
+                        <span class="stat-value">-Rs 8,500</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="action-item" onclick="showModal('sendMoney')">
+                <div class="action-icon send">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <span>Send</span>
+            </div>
+            <div class="action-item" onclick="showModal('requestMoney')">
+                <div class="action-icon request">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <span>Request</span>
+            </div>
+            <div class="action-item" onclick="showModal('mobileLoad')">
+                <div class="action-icon load">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <span>Recharge</span>
+            </div>
+            <div class="action-item" onclick="showModal('billPayment')">
+                <div class="action-icon bill">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <span>Bills</span>
+            </div>
+            <div class="action-item" onclick="showModal('addMoney')">
+                <div class="action-icon add">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <span>Add Cash</span>
+            </div>
+            <div class="action-item" onclick="showModal('currencyConverter')">
+                <div class="action-icon converter">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <span>Convert</span>
+            </div>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="services-section">
+            <div class="section-header">
+                <h3 class="section-title">Services</h3>
+                <a href="#" class="view-all">See All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="services-grid">
+                <div class="service-card" onclick="showModal('sendMoney')">
+                    <div class="service-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <span>Transfer</span>
+                </div>
+                <div class="service-card" onclick="showModal('investment')">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <span>Invest</span>
+                </div>
+                <div class="service-card" onclick="showModal('savings')">
+                    <div class="service-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <span>Savings</span>
+                </div>
+                <div class="service-card" onclick="showModal('billPayment')">
+                    <div class="service-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <span>Electricity</span>
+                </div>
+                <div class="service-card" onclick="showModal('billPayment')">
+                    <div class="service-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <span>Gas</span>
+                </div>
+                <div class="service-card" onclick="showModal('billPayment')">
+                    <div class="service-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <span>Internet</span>
+                </div>
+                <div class="service-card" onclick="showModal('insurance')">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span>Insurance</span>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <span>More</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="history-section">
+            <div class="section-header">
+                <h3 class="section-title">Recent Transactions</h3>
+                <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div id="transactionList" class="transaction-list">
+                <div class="empty-state">
+                    <i class="fas fa-receipt"></i>
+                    <p>No transactions yet</p>
+                    <span>Start your first transaction</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" id="navHome" onclick="showPage('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" id="navAnalytics" onclick="showPage('analytics')">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </div>
+            <div class="nav-item nav-center" onclick="showModal('scanQR')">
+                <div class="nav-center-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+            </div>
+            <div class="nav-item" id="navCards" onclick="showPage('cards')">
+                <i class="fas fa-credit-card"></i>
+                <span>Cards</span>
+            </div>
+            <div class="nav-item" id="navProfile" onclick="showPage('profile')">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- CARDS PAGE -->
+    <div class="cards-page page-content" id="cardsPage">
+        <header class="page-header">
+            <i class="fas fa-arrow-left back-btn" onclick="showPage('home')"></i>
+            <h2>My Cards</h2>
+            <i class="fas fa-plus add-btn" onclick="showModal('addCard')"></i>
+        </header>
+
+        <div class="cards-container">
+            <div class="virtual-card">
+                <div class="card-design card-ocean">
+                    <div class="card-chip-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="card-number">**** **** **** 4532</div>
+                    <div class="card-info-row">
+                        <div class="card-holder">
+                            <span class="label">Card Holder</span>
+                            <span class="value card-holder-name">JOHN DOE</span>
+                        </div>
+                        <div class="card-expiry">
+                            <span class="label">Expires</span>
+                            <span class="value">12/25</span>
+                        </div>
+                    </div>
+                    <div class="card-brand">
+                        <i class="fab fa-cc-visa"></i>
+                    </div>
+                    <div class="card-glow-effect"></div>
+                </div>
+            </div>
+
+            <div class="virtual-card">
+                <div class="card-design card-sunset">
+                    <div class="card-chip-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="card-number">**** **** **** 8721</div>
+                    <div class="card-info-row">
+                        <div class="card-holder">
+                            <span class="label">Card Holder</span>
+                            <span class="value card-holder-name">JOHN DOE</span>
+                        </div>
+                        <div class="card-expiry">
+                            <span class="label">Expires</span>
+                            <span class="value">08/26</span>
+                        </div>
+                    </div>
+                    <div class="card-brand">
+                        <i class="fab fa-cc-mastercard"></i>
+                    </div>
+                    <div class="card-glow-effect"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-actions">
+            <h3 class="section-title">Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="cardAction('freeze')">
+                    <i class="fas fa-snowflake"></i>
+                    <span>Freeze Card</span>
+                </button>
+                <button class="action-btn" onclick="cardAction('limit')">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Set Limit</span>
+                </button>
+                <button class="action-btn" onclick="cardAction('details')">
+                    <i class="fas fa-eye"></i>
+                    <span>View Details</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-transactions">
+            <h3 class="section-title">Card Transactions</h3>
+            <div class="transaction-list">
+                <div class="transaction-item">
+                    <div class="transaction-icon bill">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">Amazon Purchase</div>
+                        <div class="transaction-date">Today, 2:30 PM</div>
+                    </div>
+                    <div class="transaction-amount debit">-Rs 3,500</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon bill">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">Restaurant</div>
+                        <div class="transaction-date">Yesterday, 8:15 PM</div>
+                    </div>
+                    <div class="transaction-amount debit">-Rs 1,200</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANALYTICS PAGE -->
+    <div class="analytics-page page-content" id="analyticsPage">
+        <header class="page-header">
+            <i class="fas fa-arrow-left back-btn" onclick="showPage('home')"></i>
+            <h2>Analytics</h2>
+            <i class="fas fa-download download-btn" onclick="downloadReport()"></i>
+        </header>
+
+        <div class="analytics-period">
+            <button class="period-btn active" onclick="changePeriod('week')">Week</button>
+            <button class="period-btn" onclick="changePeriod('month')">Month</button>
+            <button class="period-btn" onclick="changePeriod('year')">Year</button>
+        </div>
+
+        <div class="analytics-summary">
+            <div class="summary-card income-card">
+                <div class="summary-icon">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <div class="summary-content">
+                    <span class="summary-label">Total Income</span>
+                    <span class="summary-amount">Rs 45,000</span>
+                    <span class="summary-change positive">+12% from last month</span>
+                </div>
+            </div>
+
+            <div class="summary-card expense-card">
+                <div class="summary-icon">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="summary-content">
+                    <span class="summary-label">Total Expense</span>
+                    <span class="summary-amount">Rs 28,500</span>
+                    <span class="summary-change negative">+8% from last month</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h3 class="section-title">Spending Overview</h3>
+            <div class="chart-container">
+                <canvas id="spendingChart"></canvas>
+                <div class="chart-placeholder">
+                    <i class="fas fa-chart-bar"></i>
+                    <p>Chart visualization</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-breakdown">
+            <h3 class="section-title">Category Breakdown</h3>
+            <div class="category-list">
+                <div class="category-item">
+                    <div class="category-info">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #667EEA, #764BA2);">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="category-details">
+                            <span class="category-name">Shopping</span>
+                            <span class="category-amount">Rs 12,500</span>
+                        </div>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%; background: linear-gradient(135deg, #667EEA, #764BA2);"></div>
+                        </div>
+                        <span class="category-percent">45%</span>
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="category-info">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #F093FB, #F5576C);">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="category-details">
+                            <span class="category-name">Food & Dining</span>
+                            <span class="category-amount">Rs 8,200</span>
+                        </div>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%; background: linear-gradient(135deg, #F093FB, #F5576C);"></div>
+                        </div>
+                        <span class="category-percent">30%</span>
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="category-info">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #4FACFE, #00F2FE);">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="category-details">
+                            <span class="category-name">Transportation</span>
+                            <span class="category-amount">Rs 4,800</span>
+                        </div>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 18%; background: linear-gradient(135deg, #4FACFE, #00F2FE);"></div>
+                        </div>
+                        <span class="category-percent">18%</span>
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="category-info">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #43E97B, #38F9D7);">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div class="category-details">
+                            <span class="category-name">Entertainment</span>
+                            <span class="category-amount">Rs 3,000</span>
+                        </div>
+                    </div>
+                    <div class="category-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 11%; background: linear-gradient(135deg, #43E97B, #38F9D7);"></div>
+                        </div>
+                        <span class="category-percent">11%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="top-merchants">
+            <h3 class="section-title">Top Merchants</h3>
+            <div class="merchant-list">
+                <div class="merchant-item">
+                    <div class="merchant-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="merchant-info">
+                        <span class="merchant-name">Amazon</span>
+                        <span class="merchant-transactions">12 transactions</span>
+                    </div>
+                    <span class="merchant-amount">Rs 8,500</span>
+                </div>
+
+                <div class="merchant-item">
+                    <div class="merchant-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="merchant-info">
+                        <span class="merchant-name">Starbucks</span>
+                        <span class="merchant-transactions">8 transactions</span>
+                    </div>
+                    <span class="merchant-amount">Rs 3,200</span>
+                </div>
+
+                <div class="merchant-item">
+                    <div class="merchant-icon">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <div class="merchant-info">
+                        <span class="merchant-name">PSO</span>
+                        <span class="merchant-transactions">6 transactions</span>
+                    </div>
+                    <span class="merchant-amount">Rs 4,500</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div class="profile-page page-content" id="profilePage">
+        <header class="page-header">
+            <i class="fas fa-arrow-left back-btn" onclick="showPage('home')"></i>
+            <h2>Profile</h2>
+            <i class="fas fa-cog settings-btn" onclick="showModal('settings')"></i>
+        </header>
+
+        <div class="profile-header-section">
+            <div class="profile-avatar-large">
+                <i class="fas fa-user"></i>
+                <div class="avatar-edit">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <h3 class="profile-name" id="profileName">User</h3>
+            <p class="profile-phone" id="profilePhone">+92 XXX XXXXXXX</p>
+            <div class="profile-badges">
+                <span class="badge verified">
+                    <i class="fas fa-check-circle"></i> Verified
+                </span>
+                <span class="badge premium">
+                    <i class="fas fa-crown"></i> Premium
+                </span>
+            </div>
+        </div>
+
+        <div class="profile-stats">
+            <div class="stat-box">
+                <i class="fas fa-exchange-alt"></i>
+                <div class="stat-content">
+                    <span class="stat-number">156</span>
+                    <span class="stat-label">Transactions</span>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-users"></i>
+                <div class="stat-content">
+                    <span class="stat-number">24</span>
+                    <span class="stat-label">Contacts</span>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-trophy"></i>
+                <div class="stat-content">
+                    <span class="stat-number">Gold</span>
+                    <span class="stat-label">Tier</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-menu">
+            <div class="menu-item" onclick="showModal('personalInfo')">
+                <div class="menu-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="menu-content">
+                    <span class="menu-title">Personal Information</span>
+                    <span class="menu-subtitle">Update your details</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="menu-item" onclick="showModal('security')">
+                <div class="menu-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="menu-content">
+                    <span class="menu-title">Security & Privacy</span>
+                    <span class="menu-subtitle">PIN, biometric, 2FA</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="menu-item" onclick="showModal('notifications')">
+                <div class="menu-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="menu-content">
+                    <span class="menu-title">Notifications</span>
+                    <span class="menu-subtitle">Manage alerts</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="menu-item" onclick="showModal('linkedAccounts')">
+                <div class="menu-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div class="menu-content">
+                    <span class="menu-title">Linked Accounts</span>
+                    <span class="menu-subtitle">Banks & cards</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="menu-item" onclick="showModal('referral')">
+                <div class="menu-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="menu-content">
+                    <span class="menu-title">Refer & Earn</span>
+                    <span class="menu-subtitle">Get Rs 500 per referral</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="menu-item" onclick="showModal('help')">
+                <div class="menu-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="menu-content">
+                    <span class="menu-title">Help & Support</span>
+                    <span class="menu-subtitle">FAQs, contact us</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="menu-item" onclick="logout()">
+                <div class="menu-icon danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <div class="menu-content">
+                    <span class="menu-title danger">Logout</span>
+                    <span class="menu-subtitle">Sign out of your account</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="app-version">
+            <p>Paylance Version 2.5.0</p>
+        </div>
+    </div>
+
+    <!-- Modal for Transactions -->
+    <div class="modal" id="transactionModal">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Transaction</h3>
+                <i class="fas fa-times close-modal" onclick="closeModal()"></i>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Animation -->
+    <div class="success-popup" id="successPopup">
+        <div class="success-content">
+            <div class="success-checkmark">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 id="successTitle">Success!</h3>
+            <p id="successMessage">Transaction completed successfully</p>
+        </div>
+    </div>
+    <!-- OTP Verification Modal -->
+<div id="otpModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%); z-index:99999; justify-content:center; align-items:center;">
+  <div style="background:#ffffff; border:2px solid #6c5ce7; border-radius:20px;
+              padding:32px 24px; width:92%; max-width:420px; text-align:center; color:white;
+              box-shadow: 0 20px 60px rgba(108,92,231,0.4);">
+    
+    <div style="font-size:52px; margin-bottom:12px;">📧</div>
+    <h2 style="color:#9790f9; margin:0 0 6px; font-size:22px;">Email Verification</h2>
+    <p style="color:#999a9a; font-size:13px; margin:0 0 6px;">6-digit OTP sent to</p>
+    <p style="color:#999a9a; font-weight:700; font-size:15px; margin:0 0 24px;" id="otpEmailDisplay"></p>
+
+    <!-- 6 OTP Input Boxes -->
+    <div style="display:flex; gap:8px; justify-content:center; margin-bottom:20px;">
+      <input type="text" inputmode="numeric" maxlength="1" id="otp1"
+        style="width:46px;height:54px;text-align:center;font-size:22px;font-weight:700;
+               background:#cecefd;border:2px solid #6c5ce7;border-radius:10px;
+               color:rgb(0, 0, 0);outline:none;transition:border 0.2s;"
+        oninput="otpMove(this,'otp2')" onkeydown="otpBack(event,'')">
+      <input type="text" inputmode="numeric" maxlength="1" id="otp2"
+        style="width:46px;height:54px;text-align:center;font-size:22px;font-weight:700;
+               background:#cecefd;border:2px solid #6c5ce7;border-radius:10px;
+               color:rgb(0, 0, 0);outline:none;transition:border 0.2s;"
+        oninput="otpMove(this,'otp3')" onkeydown="otpBack(event,'otp1')">
+      <input type="text" inputmode="numeric" maxlength="1" id="otp3"
+        style="width:46px;height:54px;text-align:center;font-size:22px;font-weight:700;
+               background:#cecefd;border:2px solid #6c5ce7;border-radius:10px;
+               color:rgb(0, 0, 0);outline:none;transition:border 0.2s;"
+        oninput="otpMove(this,'otp4')" onkeydown="otpBack(event,'otp2')">
+      <input type="text" inputmode="numeric" maxlength="1" id="otp4"
+        style="width:46px;height:54px;text-align:center;font-size:22px;font-weight:700;
+               background:#cecefd;border:2px solid #6c5ce7;border-radius:10px;
+               color:rgb(0, 0, 0);outline:none;transition:border 0.2s;"
+        oninput="otpMove(this,'otp5')" onkeydown="otpBack(event,'otp3')">
+      <input type="text" inputmode="numeric" maxlength="1" id="otp5"
+        style="width:46px;height:54px;text-align:center;font-size:22px;font-weight:700;
+               background:#cecefd;border:2px solid #6c5ce7;border-radius:10px;
+               color:rgb(0, 0, 0);outline:none;transition:border 0.2s;"
+        oninput="otpMove(this,'otp6')" onkeydown="otpBack(event,'otp4')">
+      <input type="text" inputmode="numeric" maxlength="1" id="otp6"
+        style="width:46px;height:54px;text-align:center;font-size:22px;font-weight:700;
+               background:#cecefd;border:2px solid #6c5ce7;border-radius:10px;
+               color:rgb(0, 0, 0);outline:none;transition:border 0.2s;"
+        oninput="otpMove(this,'')" onkeydown="otpBack(event,'otp5')">
+    </div>
+
+    <!-- Timer -->
+    <p id="otpTimerBox" style="color:#fdcb6e; font-size:13px; margin-bottom:20px;">
+      ⏱️ Expires in: <span id="timerCount" style="font-weight:700;">5:00</span>
+    </p>
+
+    <!-- Verify Button -->
+    <button onclick="verifyOtpAndRegister()"
+      style="width:100%;padding:14px;
+             background:linear-gradient(135deg,#6c5ce7,#a29bfe);
+             color:white;border:none;border-radius:12px;
+             font-size:16px;font-weight:700;cursor:pointer;
+             margin-bottom:10px;letter-spacing:0.5px;">
+      ✅ Verify & Create Account
+    </button>
+
+    <!-- Resend Button -->
+    <button onclick="resendOtpEmail()"
+      style="width:100%;padding:12px;background:transparent;
+             color:#a29bfe;border:1.5px solid #6c5ce7;
+             border-radius:12px;font-size:14px;cursor:pointer;
+             margin-bottom:10px;">
+      🔄 Resend OTP
+    </button>
+
+    <!-- Back Button -->
+    <button onclick="closeOtpModal()"
+      style="background:none;border:none;color:#636e72;
+             font-size:13px;cursor:pointer;margin-top:4px;">
+      ← Back to Registration
+    </button>
+  </div>
+</div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
